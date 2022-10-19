@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "JbHifi.WeatherReport.Backend", "JbHifi.WeatherReport.Backend", "{25925B10-B436-49ED-B06B-C41D9E10835C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JbHifi.WeatherReport.Common", "JbHifi.WeatherReport.Backend\JbHifi.WeatherReport.Common\JbHifi.WeatherReport.Common.csproj", "{EB4FC338-863A-44AA-8366-9DC3B9D3105D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JbHifi.WeatherReport.DataLibrary", "JbHifi.WeatherReport.Backend\JbHifi.WeatherReport.DataLibrary\JbHifi.WeatherReport.DataLibrary.csproj", "{78FA6E32-1FFC-42F8-A0C7-06884F41FF77}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JbHifi.WeatherReport.WebApi", "JbHifi.WeatherReport.Backend\JbHifi.WeatherReport.WebApi\JbHifi.WeatherReport.WebApi.csproj", "{BA848760-FACC-4325-98A0-DF8C4624BF11}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JbHifi.WeatherReport.UnitTests", "JbHifi.WeatherReport.Backend\JbHifi.WeatherReport.UnitTests\JbHifi.WeatherReport.UnitTests.csproj", "{00E57071-8407-4D34-833A-68F1EBEC3DAD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EB4FC338-863A-44AA-8366-9DC3B9D3105D} = {25925B10-B436-49ED-B06B-C41D9E10835C}
+		{78FA6E32-1FFC-42F8-A0C7-06884F41FF77} = {25925B10-B436-49ED-B06B-C41D9E10835C}
+		{BA848760-FACC-4325-98A0-DF8C4624BF11} = {25925B10-B436-49ED-B06B-C41D9E10835C}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EB4FC338-863A-44AA-8366-9DC3B9D3105D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB4FC338-863A-44AA-8366-9DC3B9D3105D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB4FC338-863A-44AA-8366-9DC3B9D3105D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB4FC338-863A-44AA-8366-9DC3B9D3105D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78FA6E32-1FFC-42F8-A0C7-06884F41FF77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78FA6E32-1FFC-42F8-A0C7-06884F41FF77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78FA6E32-1FFC-42F8-A0C7-06884F41FF77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78FA6E32-1FFC-42F8-A0C7-06884F41FF77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA848760-FACC-4325-98A0-DF8C4624BF11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA848760-FACC-4325-98A0-DF8C4624BF11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA848760-FACC-4325-98A0-DF8C4624BF11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA848760-FACC-4325-98A0-DF8C4624BF11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00E57071-8407-4D34-833A-68F1EBEC3DAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00E57071-8407-4D34-833A-68F1EBEC3DAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00E57071-8407-4D34-833A-68F1EBEC3DAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00E57071-8407-4D34-833A-68F1EBEC3DAD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
