@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="JmesPath.Net" Version="1.0.205" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.10" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.10">
           <PrivateAssets>all</PrivateAssets>
@@ -27,7 +28,15 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="logs" />
       <Folder Include="Requests" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Transform.query" />
+      <Content Include="Transform.query">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
 </Project>

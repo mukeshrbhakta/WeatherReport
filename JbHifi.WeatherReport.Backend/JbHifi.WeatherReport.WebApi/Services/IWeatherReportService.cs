@@ -4,5 +4,6 @@ namespace JbHifi.WeatherReport.WebApi.Services;
 
 public interface IWeatherReportService
 {
-    Task<IList<Openweatherserviceapikey>> GetAllOpenWeatherServiceApiKeys();
+    Task<IEnumerable<string>> GetWeatherForecast(string city, string country);
+    Task ValidateApiKey(string apiKey);
 }

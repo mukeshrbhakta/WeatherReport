@@ -1,4 +1,6 @@
+using System.Text.Json;
 using JbHifi.WeatherReport.DataLibrary.Models;
+using JbHifi.WeatherReport.WebApi.Attributes;
 using JbHifi.WeatherReport.WebApi.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,10 +20,11 @@ public class WeatherForecastController : ControllerBase
         _weatherReportService = weatherReportService;
     }
 
-    [HttpGet("GetAllOpenWeatherServiceApiKeys")]
-    public async Task<ActionResult<IList<Openweatherserviceapikey>>> GetAllOpenWeatherServiceApiKeys()
+    [HttpGet("GetWeatherForecast")]
+    [ServiceFilter(typeof(AuthorizeAttribute))]
+    public async Task<ActionResult<IList<string>>> GetWeatherForecast(string city, string country)
     {
-        var response = await _weatherReportService.GetAllOpenWeatherServiceApiKeys();
-        return Ok(response);
+        var response = await _weatherReportService.GetWeatherForecast(city, country);
+        return response.Any() ? Ok(response) : NotFound(); 
     }
 }

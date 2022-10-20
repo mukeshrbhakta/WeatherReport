@@ -32,7 +32,7 @@ public class Security
     /// <param name="secretKey">the b64 encoded secret key</param>
     /// <param name="input">the base 64 input</param>
     /// <returns>clear text decrypted string</returns>
-    public static string Decrypt(string secretKey, string? input)
+    public static string Decrypt(string? secretKey, string? input)
     {
         if (string.IsNullOrWhiteSpace(secretKey))
         {
@@ -109,7 +109,7 @@ public class Security
     /// <param name="secretKey">the b64 encoded secret key</param>
     /// <param name="input">the clear text input</param>
     /// <returns>a base64 encrypted string</returns>
-    public static string Encrypt(string secretKey, string input)
+    public static string Encrypt(string? secretKey, string input)
     {
         if (string.IsNullOrWhiteSpace(secretKey))
         {

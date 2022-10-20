@@ -8,20 +8,21 @@ namespace JbHifi.WeatherReport.WebApi.Services;
 /// <summary>
 /// The global error handler
 /// </summary>
-public class ExceptionHandlerService
+public class ExceptionHandlerService  
 { 
     private readonly RequestDelegate _next;
-    private readonly ILogger<ExceptionHandlerService> _logger;
-
+    private readonly ILogger<ExceptionHandlerService> _logger; 
+    
     /// <summary>
     /// ctor
     /// </summary>
     /// <param name="next"></param>
-    /// <param name="logger"></param>
-    public ExceptionHandlerService(RequestDelegate next, ILogger<ExceptionHandlerService> logger)
+    /// <param name="logger"></param> 
+    public ExceptionHandlerService(RequestDelegate next, 
+        ILogger<ExceptionHandlerService> logger)
     {
         _next = next;
-        _logger = logger;
+        _logger = logger; 
     }
     
     /// <summary>
@@ -36,40 +37,15 @@ public class ExceptionHandlerService
         }
         catch (Exception ex)
         {
-            var correlationId = LogException(ex);
-            await HandleExceptionAsync(context, ex, correlationId);
+            var errorService = context.RequestServices.GetRequiredService<IErrorService>();
+            if (errorService != null)
+            {
+                var correlationId = errorService.LogException(ex);
+                await HandleExceptionAsync(context, ex, correlationId);
+            }
         }
     }
-
-    /// <summary>
-    /// Exception handler
-    /// </summary>
-    /// <param name="exception"></param>
-    /// <returns></returns>
-    private Guid LogException(Exception exception)
-    {
-        var correlationId = Guid.NewGuid();
-        _logger.LogError($"Correlation id {correlationId}\tMessage {exception}");
-        
-        if (exception.InnerException != null)
-        {
-            _logger.LogError($"Correlation id {correlationId}\tInnerException {exception.InnerException}");
-        }
-        
-        LogStackTrace(correlationId, exception);
-
-        return correlationId;
-    }
-
-    [Conditional("DEBUG")]
-    private void LogStackTrace(Guid correlationId, Exception exception)
-    {
-        if (!string.IsNullOrWhiteSpace(exception.StackTrace))
-        {
-            _logger.LogError($"Correlation id {correlationId}\tStack trace -\r\n{exception.StackTrace}");
-        }
-    }
-
+ 
     private async Task HandleExceptionAsync(HttpContext context, Exception exception, Guid correlationId)
     {
         var response = context.Response;
@@ -83,6 +59,10 @@ public class ExceptionHandlerService
         {
             case ApplicationException: // UI display exception 
                 response.StatusCode = (int) HttpStatusCode.BadRequest;
+                errorResponse.ErrorMessage = exception.Message;
+                break;
+            case UnauthorizedAccessException:
+                response.StatusCode = (int) HttpStatusCode.Unauthorized;
                 errorResponse.ErrorMessage = exception.Message;
                 break;
             default:

@@ -14,10 +14,12 @@ docker run --name postgres -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgr
 ```
 
 ## Creating the database
-1. We use the db-first approach. Execute the following scripts to create the database script - 
-```
-cd JbHifi.WeatherReport.Backend/JbHifi.WeatherReport.DataLibrary
-dotnet ef dbcontext scaffold "Host=localhost:5432;Database=postgres;Username=postgres;Password=<password>" Npgsql.EntityFrameworkCore.PostgreSQL -o Models -c "WeatherReportDbContext" --force
-cd ../..
-```
-2. Remove the OnConfiguring method from Models/SchedulingDbContext.cs
+1. We use the db-first approach. Execute 'Database Scripts/Create Database.sql' to create the database -
+2. If changes are made to the db schema -
+    a. Execute the following lines -
+    ```
+    cd JbHifi.WeatherReport.Backend/JbHifi.WeatherReport.DataLibrary
+    dotnet ef dbcontext scaffold "Host=localhost:5432;Database=postgres;Username=postgres;Password=<password>" Npgsql.EntityFrameworkCore.PostgreSQL -o Models -c "WeatherReportDbContext" --force
+    cd ../..
+    ```
+    b. Remove the OnConfiguring method from Models/SchedulingDbContext.cs

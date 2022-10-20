@@ -7,7 +7,7 @@ namespace JbHifi.WeatherReport.UnitTests.Common;
 [TestClass]
 public class SecurityTests
 {
-    private string _key { get; set; }
+    private string? _key { get; set; }
     [TestInitialize]
     public void Setup()
     {

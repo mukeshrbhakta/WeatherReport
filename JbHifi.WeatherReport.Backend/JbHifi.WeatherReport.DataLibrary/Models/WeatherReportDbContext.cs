@@ -16,9 +16,9 @@ namespace JbHifi.WeatherReport.DataLibrary.Models
         {
         }
 
-        public virtual DbSet<Openweatherserviceapikey?> Openweatherserviceapikeys { get; set; } = null!;
+        public virtual DbSet<Openweatherserviceapikey> Openweatherserviceapikeys { get; set; } = null!;
         public virtual DbSet<Weatherreportapikey> Weatherreportapikeys { get; set; } = null!;
- 
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Openweatherserviceapikey>(entity =>
@@ -69,9 +69,17 @@ namespace JbHifi.WeatherReport.DataLibrary.Models
                     .HasColumnName("createddate")
                     .HasDefaultValueSql("(now() AT TIME ZONE 'utc'::text)");
 
+                entity.Property(e => e.Name)
+                    .HasMaxLength(50)
+                    .HasColumnName("name");
+
                 entity.Property(e => e.Ratelimitperhour)
                     .HasColumnName("ratelimitperhour")
                     .HasDefaultValueSql("5");
+
+                entity.Property(e => e.Uniqueid)
+                    .HasColumnName("uniqueid")
+                    .HasDefaultValueSql("gen_random_uuid()");
 
                 entity.Property(e => e.Updatedby)
                     .HasMaxLength(100)
