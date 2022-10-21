@@ -1,6 +1,5 @@
 using JbHifi.WeatherReport.Common;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace JbHifi.WeatherReport.UnitTests.Common;
 

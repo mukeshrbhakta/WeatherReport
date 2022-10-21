@@ -1,5 +1,4 @@
 using DevLab.JmesPath;
-using JbHifi.WeatherReport.Common;
 
 namespace JbHifi.WeatherReport.WebApi.Services;
 

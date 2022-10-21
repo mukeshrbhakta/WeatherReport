@@ -1,4 +1,3 @@
-using System.Dynamic;
 using JbHifi.WeatherReport.DataLibrary.Models;
 
 namespace JbHifi.WeatherReport.DataLibrary.Interfaces;

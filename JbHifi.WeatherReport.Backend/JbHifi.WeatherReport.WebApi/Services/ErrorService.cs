@@ -1,7 +1,4 @@
 using System.Diagnostics;
-using System.Net;
-using System.Text.Json;
-using JbHifi.WeatherReport.WebApi.Responses;
 
 namespace JbHifi.WeatherReport.WebApi.Services;
 
