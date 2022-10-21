@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace JbHifi.WeatherReport.WebApi.Attributes;
 
-public class AuthorizeAttribute : ActionFilterAttribute, IAuthorizationFilter
+public class AuthorizeAttribute : ActionFilterAttribute, IAsyncAuthorizationFilter
 {
     /// <summary>
     /// Logger
@@ -17,7 +17,8 @@ public class AuthorizeAttribute : ActionFilterAttribute, IAuthorizationFilter
     /// Service
     /// </summary>
     private readonly IWeatherReportService _weatherReportService;
-    private readonly IErrorService _errorService;
+    private readonly IErrorService _errorService; 
+
  
     /// <summary>
     /// ctor
@@ -29,16 +30,17 @@ public class AuthorizeAttribute : ActionFilterAttribute, IAuthorizationFilter
         IWeatherReportService weatherReportService, 
         IErrorService errorService)
     {
-        _logger = logger;
+        _logger = logger; 
         _weatherReportService = weatherReportService;
         _errorService = errorService;
     }
+     
     
     /// <summary>
     /// Event handler
     /// </summary>
     /// <param name="context"></param>
-    public async void OnAuthorization(AuthorizationFilterContext context)
+    public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
     {
         try
         {
@@ -51,9 +53,16 @@ public class AuthorizeAttribute : ActionFilterAttribute, IAuthorizationFilter
                 StatusCode = (int) HttpStatusCode.Unauthorized
             };
         }
+        catch (BadHttpRequestException exception)
+        {
+            context.Result = new ObjectResult(exception.Message)
+            {
+                StatusCode = (int) HttpStatusCode.BadRequest
+            };
+        }
         catch (Exception exception)
         {
-            var correlationId =  _errorService.LogException(exception);
+            var correlationId = _errorService.LogException(exception);
             var errorMessage = $"Please contact support quoting the correlation id - {correlationId}";
 
             context.Result = new ObjectResult(errorMessage)
@@ -78,7 +87,10 @@ public class AuthorizeAttribute : ActionFilterAttribute, IAuthorizationFilter
         {
             throw new UnauthorizedAccessException(PreDefines.AuthoriseAttributeErrorMessage);
         }
-
+ 
+        _logger!.LogDebug($"Api Key : {apiKey}");
         await _weatherReportService.ValidateApiKey(apiKey);
     }
+
+     
 }

@@ -22,6 +22,8 @@ public static class PreDefines
 
     public const string InvalidParameters = "Please provide both parameters";
     
-    public const string InvalidTransformParameters = "Transform parameters are invalid";
+    public const string RateLimitPerHourExceeded = "Your hourly limit has exceeded";
+
+    public const string SerializationProblem = "Problem serializing data";
 
 }

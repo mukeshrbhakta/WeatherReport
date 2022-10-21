@@ -1,5 +1,3 @@
-using System.Net.Http.Json;
-using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Configuration;
 
 namespace JbHifi.WeatherReport.Common;
@@ -22,15 +20,13 @@ public static class Helpers
     /// <summary>
     /// Generate Api key
     /// </summary>
-    /// <param name="configuration"></param>
     /// <param name="name"></param>
     /// <param name="uniqueId"></param>
     /// <returns></returns>
-    public static string GenerateApiKey(IConfiguration? configuration, string name, Guid uniqueId)
+    public static string GenerateApiKey(string name, Guid uniqueId)
     {
         var magicString = $"{name}::{uniqueId}";
-        var key = configuration!["Key"]; 
-        return Security.Encrypt(key, magicString);
+        return Security.GetHash(magicString);
     }
 
     /// <summary>

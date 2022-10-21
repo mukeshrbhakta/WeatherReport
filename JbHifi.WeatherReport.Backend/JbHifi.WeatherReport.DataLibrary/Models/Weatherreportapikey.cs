@@ -1,10 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace JbHifi.WeatherReport.DataLibrary.Models
+﻿namespace JbHifi.WeatherReport.DataLibrary.Models
 {
     public partial class Weatherreportapikey
     {
+        public Weatherreportapikey()
+        {
+            Audits = new HashSet<Audit>();
+        }
+
         public int Id { get; set; }
         public string Name { get; set; } = null!;
         public Guid Uniqueid { get; set; }
@@ -13,5 +15,7 @@ namespace JbHifi.WeatherReport.DataLibrary.Models
         public string Updatedby { get; set; } = null!;
         public DateTime Createddate { get; set; }
         public DateTime Updateddate { get; set; }
+
+        public virtual ICollection<Audit> Audits { get; set; }
     }
 }

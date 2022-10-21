@@ -1,34 +1,33 @@
-using System.Data;
 using System.Text.Json;
 using JbHifi.WeatherReport.Common;
 using JbHifi.WeatherReport.DataLibrary.Interfaces;
 using JbHifi.WeatherReport.DataLibrary.Models;
-using Serilog.Configuration;
 
 namespace JbHifi.WeatherReport.WebApi.Services;
 
 public class WeatherReportService : IWeatherReportService
-{
-    private readonly ILogger<WeatherReportService> _logger;
+{ 
     private readonly IConfiguration _configuration;
     private readonly IOpenWeatherServiceApiKeyRepository _openWeatherServiceApiKeyRepository;
     private readonly IWeatherReportApiKeyRepository _weatherReportApiKeyRepository;
+    private readonly IAuditRepository _auditRepository;
     private readonly IErrorService _errorService;
     private readonly ITransformService _transformService;
     private readonly IHttpClientFactory _httpClientFactory;
     
-    public WeatherReportService(ILogger<WeatherReportService> logger,
+    public WeatherReportService(
         IConfiguration configuration,
         IOpenWeatherServiceApiKeyRepository openWeatherServiceApiKeyRepository,
-        IWeatherReportApiKeyRepository weatherReportApiKeyRepository, 
+        IWeatherReportApiKeyRepository weatherReportApiKeyRepository,
+        IAuditRepository auditRepository,
         IErrorService errorService,
         ITransformService transformService,
         IHttpClientFactory httpClientFactory)
-    {
-        _logger = logger;
+    { 
         _configuration = configuration;
         _openWeatherServiceApiKeyRepository = openWeatherServiceApiKeyRepository;
         _weatherReportApiKeyRepository = weatherReportApiKeyRepository;
+        _auditRepository = auditRepository;
         _errorService = errorService;
         _transformService = transformService;
         _httpClientFactory = httpClientFactory;
@@ -36,30 +35,29 @@ public class WeatherReportService : IWeatherReportService
 
     public async Task<IEnumerable<string>> GetWeatherForecast(string city, string country)
     {
-        if (string.IsNullOrWhiteSpace(city) || string.IsNullOrWhiteSpace(country))
-        {
-            throw new ApplicationException(PreDefines.InvalidParameters);
-        }
+        Validate(city, country);
 
         var endPoint = Helpers.GetEndpoint(_configuration);
         var data = await _openWeatherServiceApiKeyRepository.GetAll();
 
+        var dataList = new List<string>();
+
+        // Parse through services
         foreach (var record in data)
         {
             var result = await MakeWebRequest(endPoint, record.Apikey, city, country);
-            if (!string.IsNullOrWhiteSpace(result))
+            // filter out invalids and duplicates
+            if (!string.IsNullOrWhiteSpace(result) && !dataList.Contains(result))
             {
-                // Run transformation 
-                var transform = await _transformService.Process(result);
-                return GetJsonResponse(transform);
-            }
-            
-            // Retry using the next API key
+                dataList.Add(result);
+            } 
         }
-
-        return new List<string>();
+        
+        // Run transformation 
+        var transform = await _transformService.Process(dataList.ToJsonArray());
+        return GetJsonResponse(transform);
     }
-
+ 
     /// <summary>
     /// Validate api key
     /// </summary>
@@ -67,14 +65,37 @@ public class WeatherReportService : IWeatherReportService
     public async Task ValidateApiKey(string apiKey)
     {
         var apiKeyRecords = await _weatherReportApiKeyRepository.GetAll();
-        var found = apiKeyRecords.Select(record => 
-            Helpers.GenerateApiKey(_configuration, record.Name, record.Uniqueid))
-            .Any(generatedApiKey => apiKey == generatedApiKey);
-
-        if (!found)
+        var apiKeyId = 0;
+        var rateLimitPerHour = 0;
+        
+        foreach (var record in apiKeyRecords)
+        {
+            var generatedKey = Helpers.GenerateApiKey(record.Name, record.Uniqueid);
+            if (generatedKey == apiKey)
+            {
+                apiKeyId = record.Id;
+                rateLimitPerHour = record.Ratelimitperhour;
+                break;
+            }
+        }
+        
+        if (apiKeyId == 0) // not found 
         {
             throw new UnauthorizedAccessException(PreDefines.AuthoriseAttributeErrorMessage);
         }
+
+        var withinLimits = await WithinHourlyLimit(apiKeyId, rateLimitPerHour);
+
+        if (!withinLimits) // Above limit
+        {
+            throw new BadHttpRequestException(PreDefines.RateLimitPerHourExceeded);
+        }
+        
+        // Success
+        await _auditRepository.Add(new Audit()
+        {
+            Weatherreportapikeysid = apiKeyId
+        });
     }
 
     /// <summary>
@@ -101,6 +122,12 @@ public class WeatherReportService : IWeatherReportService
         }
     }
 
+    private async Task<bool> WithinHourlyLimit(int apiKeyId, int rateLimitPerHour)
+    {
+        var records = await _auditRepository.GetForWeatherReportApiKeyIdForPastHour(apiKeyId);
+        return records.Count() < rateLimitPerHour;
+    }
+
     private IEnumerable<string> GetJsonResponse(string response)
     {
         if (string.IsNullOrWhiteSpace(response))
@@ -113,7 +140,20 @@ public class WeatherReportService : IWeatherReportService
                 PropertyNameCaseInsensitive = true,
             });
 
+        if (json == null)
+        {
+            throw new InvalidOperationException(PreDefines.SerializationProblem);
+        }
+        
         return json;
-         
     }
+    
+    private static void Validate(string city, string country)
+    {
+        if (string.IsNullOrWhiteSpace(city) || string.IsNullOrWhiteSpace(country))
+        {
+            throw new ArgumentException(PreDefines.InvalidParameters);
+        }
+    }
+
 }

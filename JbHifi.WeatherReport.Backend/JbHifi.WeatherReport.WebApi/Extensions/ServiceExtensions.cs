@@ -2,7 +2,6 @@ using JbHifi.WeatherReport.DataLibrary.Implementations;
 using JbHifi.WeatherReport.DataLibrary.Interfaces;
 using JbHifi.WeatherReport.WebApi.Attributes;
 using Serilog;
-using Microsoft.AspNetCore.Mvc;
 using JbHifi.WeatherReport.WebApi.Services;
 
 namespace JbHifi.WeatherReport.WebApi.Extensions;
@@ -26,6 +25,7 @@ public static class ServiceExtensions
         services.AddScoped<IWeatherReportDbFactory, WeatherReportDbFactory>();
         services.AddScoped<IWeatherReportApiKeyRepository, WeatherReportApiKeyRepository>();
         services.AddScoped<IOpenWeatherServiceApiKeyRepository, OpenWeatherServiceApiKeyRepository>();
+        services.AddScoped<IAuditRepository, AuditRepository>();
         services.AddScoped<IWeatherReportService, WeatherReportService>();
         services.AddScoped<IErrorService, ErrorService>();
         services.AddScoped<ITransformService, TransformService>();

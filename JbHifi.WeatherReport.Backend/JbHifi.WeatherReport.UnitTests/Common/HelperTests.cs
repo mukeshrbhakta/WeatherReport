@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using JbHifi.WeatherReport.Common;
 using Microsoft.Extensions.Configuration;
 
@@ -16,27 +17,44 @@ public class HelperTests
 
     [TestMethod]
     public void GetDatabaseConnectionString_Success()
-    {
-        // Arrange 
-        
+    { 
         // Act 
         var clearText = Helpers.GetDatabaseConnectionString(_configuration);
         
         // Assert
-        Assert.AreEqual(clearText, "some text");
+        Assert.AreEqual("some text", clearText);
     }
 
     [TestMethod]
     public void GenerateApiKey_Success()
     {
         // Arrange 
-        var name = "Key #1";
-        var guid = new Guid("363ba294-b4b3-4e7b-ae57-c8a2289bb5c7"); // Guid.NewGuid();
+        var name = "name";
+        var guid = Guid.NewGuid();
         
         // Act 
-        var apiKey = Helpers.GenerateApiKey(_configuration, name, guid);
+        var apiKey = Helpers.GenerateApiKey(name, guid);
         
         // Assert
         Assert.IsFalse(string.IsNullOrWhiteSpace(apiKey)); 
+    }
+    
+    [Conditional("DEBUG")]
+    [TestMethod, Ignore]
+    public void GenerateAllApiKeys_Success()
+    { 
+        // Act 
+        var apiKey1 = Helpers.GenerateApiKey("Key #1", new Guid("your guid"));
+        var apiKey2 = Helpers.GenerateApiKey("Key #2", new Guid("your guid"));
+        var apiKey3 = Helpers.GenerateApiKey("Key #3", new Guid("your guid"));
+        var apiKey4 = Helpers.GenerateApiKey("Key #4", new Guid("your guid"));
+        var apiKey5 = Helpers.GenerateApiKey("Key #5", new Guid("your guid"));
+        
+        // Assert
+        Assert.IsFalse(string.IsNullOrWhiteSpace(apiKey1)); 
+        Assert.IsFalse(string.IsNullOrWhiteSpace(apiKey2)); 
+        Assert.IsFalse(string.IsNullOrWhiteSpace(apiKey3)); 
+        Assert.IsFalse(string.IsNullOrWhiteSpace(apiKey4)); 
+        Assert.IsFalse(string.IsNullOrWhiteSpace(apiKey5)); 
     }
 }

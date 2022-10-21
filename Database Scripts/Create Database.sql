@@ -1,5 +1,6 @@
 drop table if exists OpenWeatherServiceApiKeys cascade;
 drop table if exists WeatherReportApiKeys cascade;
+drop table if exists Audit cascade;
 
 create table if not exists OpenWeatherServiceApiKeys
 (
@@ -36,3 +37,14 @@ insert into WeatherReportApiKeys (Name) values ('Key #3');
 insert into WeatherReportApiKeys (Name) values ('Key #4');
 insert into WeatherReportApiKeys (Name) values ('Key #5');
 
+create table if not exists Audit
+(
+    Id int generated always as identity,
+    WeatherReportApiKeysId int not null,
+    CreatedBy varchar(100) not null default current_user,
+    UpdatedBy varchar(100) not null default current_user,
+    CreatedDate timestamp with time zone default(now() AT TIME ZONE 'utc'::text) not null,
+    UpdatedDate timestamp with time zone default(now() AT TIME ZONE 'utc'::text) not null,
+    primary key (Id),
+    constraint fk_Audit_WeatherReportApiKeys foreign key (WeatherReportApiKeysId) references WeatherReportApiKeys(id) on delete set null
+);

@@ -6,7 +6,7 @@ namespace JbHifi.WeatherReport.Common;
 /// <summary>
 /// Security related stuff 
 /// </summary>
-public class Security
+public static class Security
 {
      /// <summary>
     /// Base64 Initial vector (can be moved to key vault)
@@ -142,5 +142,18 @@ public class Security
         var encrypted = memoryStream.ToArray();
         // Return encoded encrypted data
         return Convert.ToBase64String(encrypted);
+    }
+
+    /// <summary>
+    /// Get hash value
+    /// </summary>
+    /// <param name="source">the source</param>
+    /// <returns></returns>
+    public static string GetHash(string source)
+    {
+        var data = Encoding.Default.GetBytes(source);
+        using var sha = SHA256.Create();
+        var response = sha.ComputeHash(data);
+        return Convert.ToBase64String(response);
     }
 }

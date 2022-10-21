@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace JbHifi.WeatherReport.DataLibrary.Models
 {
@@ -16,11 +13,47 @@ namespace JbHifi.WeatherReport.DataLibrary.Models
         {
         }
 
+        public virtual DbSet<Audit> Audits { get; set; } = null!;
         public virtual DbSet<Openweatherserviceapikey> Openweatherserviceapikeys { get; set; } = null!;
         public virtual DbSet<Weatherreportapikey> Weatherreportapikeys { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Audit>(entity =>
+            {
+                entity.ToTable("audit");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .UseIdentityAlwaysColumn();
+
+                entity.Property(e => e.Createdby)
+                    .HasMaxLength(100)
+                    .HasColumnName("createdby")
+                    .HasDefaultValueSql("CURRENT_USER");
+
+                entity.Property(e => e.Createddate)
+                    .HasColumnName("createddate")
+                    .HasDefaultValueSql("(now() AT TIME ZONE 'utc'::text)");
+
+                entity.Property(e => e.Updatedby)
+                    .HasMaxLength(100)
+                    .HasColumnName("updatedby")
+                    .HasDefaultValueSql("CURRENT_USER");
+
+                entity.Property(e => e.Updateddate)
+                    .HasColumnName("updateddate")
+                    .HasDefaultValueSql("(now() AT TIME ZONE 'utc'::text)");
+
+                entity.Property(e => e.Weatherreportapikeysid).HasColumnName("weatherreportapikeysid");
+
+                entity.HasOne(d => d.Weatherreportapikeys)
+                    .WithMany(p => p.Audits)
+                    .HasForeignKey(d => d.Weatherreportapikeysid)
+                    .OnDelete(DeleteBehavior.SetNull)
+                    .HasConstraintName("fk_audit_weatherreportapikeys");
+            });
+
             modelBuilder.Entity<Openweatherserviceapikey>(entity =>
             {
                 entity.ToTable("openweatherserviceapikeys");

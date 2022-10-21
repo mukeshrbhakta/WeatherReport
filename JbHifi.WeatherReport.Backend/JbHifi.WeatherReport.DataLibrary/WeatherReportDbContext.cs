@@ -2,12 +2,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace JbHifi.WeatherReport.DataLibrary.Models;
 
-public partial class WeatherReportDbContext : DbContext
+public partial class WeatherReportDbContext 
 {
     /// <summary>
     /// Our connection string from AWS
     /// </summary>
-    private readonly string _connectionString;
+    private readonly string? _connectionString;
 
     /// <summary>
     /// ctor
@@ -22,7 +22,7 @@ public partial class WeatherReportDbContext : DbContext
     {
         if (!optionsBuilder.IsConfigured)
         { 
-            optionsBuilder.UseNpgsql(_connectionString);
+            optionsBuilder.UseNpgsql(_connectionString!);
             optionsBuilder.EnableSensitiveDataLogging();
         }
     }
