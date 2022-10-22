@@ -2,7 +2,7 @@ using System.Diagnostics;
 
 namespace JbHifi.WeatherReport.WebApi.Services;
 
-public class ErrorService : IErrorService
+public sealed class ErrorService : IErrorService
 {
     private readonly ILogger<ErrorService> _logger;
 
@@ -31,6 +31,11 @@ public class ErrorService : IErrorService
         return correlationId;
     }
 
+    /// <summary>
+    /// Stack trace for debugging
+    /// </summary>
+    /// <param name="correlationId"></param>
+    /// <param name="exception"></param>
     [Conditional("DEBUG")]
     private void LogStackTrace(Guid correlationId, Exception exception)
     {

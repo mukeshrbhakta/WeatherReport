@@ -5,7 +5,10 @@ using Microsoft.Extensions.Configuration;
 
 namespace JbHifi.WeatherReport.DataLibrary.Implementations;
 
-public class WeatherReportDbFactory : IWeatherReportDbFactory
+/// <summary>
+/// The factory 
+/// </summary>
+public sealed class WeatherReportDbFactory : IWeatherReportDbFactory
 {
     /// <summary>
     /// The connection string 

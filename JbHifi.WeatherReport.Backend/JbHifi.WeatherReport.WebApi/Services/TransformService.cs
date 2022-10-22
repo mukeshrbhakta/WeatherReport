@@ -2,6 +2,9 @@ using DevLab.JmesPath;
 
 namespace JbHifi.WeatherReport.WebApi.Services;
 
+/// <summary>
+/// Transform data service
+/// </summary>
 public sealed class TransformService : ITransformService
 {
     /// <summary>
@@ -49,6 +52,7 @@ public sealed class TransformService : ITransformService
             var jmesPath = new JmesPath();
             // Perform transform
             response = jmesPath.Transform(request, transformQuery);
+            return response == "null" ? string.Empty : response;
         }
         catch (Exception exception)
         {

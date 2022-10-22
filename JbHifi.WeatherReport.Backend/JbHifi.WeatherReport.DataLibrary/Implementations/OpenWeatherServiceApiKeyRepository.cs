@@ -1,10 +1,12 @@
 using JbHifi.WeatherReport.DataLibrary.Interfaces;
 using JbHifi.WeatherReport.DataLibrary.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace JbHifi.WeatherReport.DataLibrary.Implementations;
 
-public class OpenWeatherServiceApiKeyRepository : BaseRepository, IOpenWeatherServiceApiKeyRepository
+/// <summary>
+/// OpenWeatherServiceApiKey repo
+/// </summary>
+public sealed class OpenWeatherServiceApiKeyRepository : BaseRepository, IOpenWeatherServiceApiKeyRepository
 {
     /// <summary>
     /// ctor
@@ -14,24 +16,25 @@ public class OpenWeatherServiceApiKeyRepository : BaseRepository, IOpenWeatherSe
     {
     }
     
+    /// <summary>
+    /// Get all records
+    /// </summary>
+    /// <returns></returns>
     public async Task<IList<Openweatherserviceapikey>> GetAll()
     {
-        await using var dbContext = GetDbContext();
-        var data = dbContext.Openweatherserviceapikeys;
-
-        if (data == null)
-        {
-            return new List<Openweatherserviceapikey>();
-        }
-
-        return await data.ToListAsync();
+        await using var dbContext = GetDbContext(); 
+        return dbContext.Openweatherserviceapikeys.ToList();
     }
 
+    /// <summary>
+    /// Get a record
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     public async Task<Openweatherserviceapikey?> Get(int id)
     {
         await using var dbContext = GetDbContext();
-        return await dbContext.Openweatherserviceapikeys
-            .Where(a => a != null && a.Id == id)
-            .FirstOrDefaultAsync();
+        return dbContext.Openweatherserviceapikeys
+            .FirstOrDefault(a => a.Id == id);
     }
 }

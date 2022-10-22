@@ -5,6 +5,9 @@ using JbHifi.WeatherReport.DataLibrary.Models;
 
 namespace JbHifi.WeatherReport.WebApi.Services;
 
+/// <summary>
+/// The main service
+/// </summary>
 public class WeatherReportService : IWeatherReportService
 { 
     private readonly IConfiguration _configuration;
@@ -33,6 +36,12 @@ public class WeatherReportService : IWeatherReportService
         _httpClientFactory = httpClientFactory;
     }
 
+    /// <summary>
+    /// Get the forecast for a city and country
+    /// </summary>
+    /// <param name="city"></param>
+    /// <param name="country"></param>
+    /// <returns></returns>
     public async Task<IEnumerable<string>> GetWeatherForecast(string city, string country)
     {
         Validate(city, country);
@@ -122,12 +131,24 @@ public class WeatherReportService : IWeatherReportService
         }
     }
 
+    /// <summary>
+    /// Check if we are within the limits 
+    /// </summary>
+    /// <param name="apiKeyId"></param>
+    /// <param name="rateLimitPerHour"></param>
+    /// <returns></returns>
     private async Task<bool> WithinHourlyLimit(int apiKeyId, int rateLimitPerHour)
     {
         var records = await _auditRepository.GetForWeatherReportApiKeyIdForPastHour(apiKeyId);
         return records.Count() < rateLimitPerHour;
     }
 
+    /// <summary>
+    /// Convert string to json response
+    /// </summary>
+    /// <param name="response"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
     private IEnumerable<string> GetJsonResponse(string response)
     {
         if (string.IsNullOrWhiteSpace(response))
@@ -148,6 +169,12 @@ public class WeatherReportService : IWeatherReportService
         return json;
     }
     
+    /// <summary>
+    /// Validate the inputs
+    /// </summary>
+    /// <param name="city"></param>
+    /// <param name="country"></param>
+    /// <exception cref="ArgumentException"></exception>
     private static void Validate(string city, string country)
     {
         if (string.IsNullOrWhiteSpace(city) || string.IsNullOrWhiteSpace(country))

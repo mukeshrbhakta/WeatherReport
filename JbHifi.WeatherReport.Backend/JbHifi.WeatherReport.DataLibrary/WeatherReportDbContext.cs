@@ -18,6 +18,10 @@ public partial class WeatherReportDbContext
         _connectionString = connectionString;
     }
 
+    /// <summary>
+    /// Overridden to use secret connection string
+    /// </summary>
+    /// <param name="optionsBuilder"></param>
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if (!optionsBuilder.IsConfigured)

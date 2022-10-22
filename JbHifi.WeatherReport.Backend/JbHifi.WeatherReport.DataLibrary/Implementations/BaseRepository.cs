@@ -3,6 +3,9 @@ using JbHifi.WeatherReport.DataLibrary.Models;
 
 namespace JbHifi.WeatherReport.DataLibrary.Implementations;
 
+/// <summary>
+/// Base class
+/// </summary>
 public class BaseRepository
 {
     /// <summary>
@@ -13,7 +16,6 @@ public class BaseRepository
     /// <summary>
     /// ctor
     /// </summary>
-    /// <param name="logger">the logger</param>
     /// <param name="dbFactory">the factory handle</param>
     protected BaseRepository(IWeatherReportDbFactory? dbFactory)
     { 
