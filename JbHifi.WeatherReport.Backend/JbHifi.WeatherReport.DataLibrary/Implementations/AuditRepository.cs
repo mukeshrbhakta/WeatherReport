@@ -1,4 +1,3 @@
-using JbHifi.WeatherReport.Common;
 using JbHifi.WeatherReport.DataLibrary.Interfaces;
 using JbHifi.WeatherReport.DataLibrary.Models;
 

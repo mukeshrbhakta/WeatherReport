@@ -1,0 +1,53 @@
+﻿@model FormViewModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+ <style>
+.myform{
+  border: 2px outset black;
+  background-color: white  ;
+  text-align: center;
+  font-family: Arial;
+  
+}
+
+.myforma {
+  font-size: large;
+}
+
+
+
+</style>
+    <meta name="viewport" content="width=device-width" />
+    <title>Form</title>
+</head>
+
+<body>
+    <div class="myform" > 
+
+        <form asp-action="index" method="post">
+            <div  class="myforma">
+                <label asp-for="City" class="" >City:</label>
+                <input asp-for="City" />
+            </div>
+            <div class="myforma">
+                <label asp-for="Country">Country:</label>
+                <input asp-for="Country" />
+            </div>
+            <div>
+               <p></p>
+                    <button type="submit">Get Weather Forecast</button>
+                <p></p>
+            </div>
+            <div class="myforma">
+                <label asp-for="Response">Response:</label>
+                <input asp-for="Response"/>
+            </div>
+        </form>
+    </div>
+
+</body>

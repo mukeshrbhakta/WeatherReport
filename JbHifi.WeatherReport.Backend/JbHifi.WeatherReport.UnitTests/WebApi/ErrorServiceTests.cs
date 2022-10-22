@@ -24,7 +24,7 @@ public class ErrorServiceTests
     public void Constructor_Success()
     {
         // Arrange
-        var errorService = new ErrorService(_logger);
+        var errorService = new ErrorService(_logger!);
         
         // Assert
         Assert.IsNotNull(errorService);
@@ -34,7 +34,7 @@ public class ErrorServiceTests
     public void LogException_Success()
     {
         // Arrange
-        var errorService = new ErrorService(_logger);
+        var errorService = new ErrorService(_logger!);
         
         // Act 
         var result = errorService.LogException(new Exception("some error"));
@@ -47,7 +47,7 @@ public class ErrorServiceTests
     public void LogException_WithInnerException_Success()
     {
         // Arrange
-        var errorService = new ErrorService(_logger);
+        var errorService = new ErrorService(_logger!);
         var exception = new Exception("some error", new Exception("some inner error"));
         
         // Act 

@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JbHifi.WeatherReport.WebApi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JbHifi.WeatherReport.UnitTests", "JbHifi.WeatherReport.Backend\JbHifi.WeatherReport.UnitTests\JbHifi.WeatherReport.UnitTests.csproj", "{00E57071-8407-4D34-833A-68F1EBEC3DAD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JbHifi.WeatherReport.FrontEnd.WebUI", "JbHifi.WeatherReport.FrontEnd\JbHifi.WeatherReport.FrontEnd.WebUI\JbHifi.WeatherReport.FrontEnd.WebUI.csproj", "{C678E94B-8EE5-4182-8280-F8BF58492B3C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,5 +39,9 @@ Global
 		{00E57071-8407-4D34-833A-68F1EBEC3DAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{00E57071-8407-4D34-833A-68F1EBEC3DAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{00E57071-8407-4D34-833A-68F1EBEC3DAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C678E94B-8EE5-4182-8280-F8BF58492B3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C678E94B-8EE5-4182-8280-F8BF58492B3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C678E94B-8EE5-4182-8280-F8BF58492B3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C678E94B-8EE5-4182-8280-F8BF58492B3C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -121,14 +121,15 @@ public class AuditRepositoryTests
     }
     
     [TestMethod]
-    [ExpectedException(typeof(NullReferenceException))]
+    [ExpectedException(typeof(ArgumentNullException))]
     public async Task Add_Null_Fail()
     {
         // Arrange 
         var auditRepository = new AuditRepository(_weatherReportDbFactory!.Object);
+        Audit? audit = null;
         
         // Act 
-        await auditRepository.Add(null);
+        await auditRepository.Add(audit!);
 
         // Assert 
         Assert.IsTrue(false); // never get here

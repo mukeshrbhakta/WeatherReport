@@ -1,4 +1,3 @@
-using System.Net;
 using JbHifi.WeatherReport.Common;
 using JbHifi.WeatherReport.DataLibrary.Interfaces;
 using JbHifi.WeatherReport.DataLibrary.Models;
@@ -13,13 +12,13 @@ namespace JbHifi.WeatherReport.UnitTests.WebApi;
 [TestClass]
 public class WeatherReportServiceTests  
 {
-    private Mock<IOpenWeatherServiceApiKeyRepository> _openWeatherServiceApiKeyRepository;
-    private Mock<IWeatherReportApiKeyRepository> _weatherReportApiKeyRepository;
-    private Mock<IAuditRepository> _auditRepository;
-    private Mock<IErrorService> _errorService;
-    private Mock<ITransformService> _transformService;
+    private Mock<IOpenWeatherServiceApiKeyRepository>? _openWeatherServiceApiKeyRepository;
+    private Mock<IWeatherReportApiKeyRepository>? _weatherReportApiKeyRepository;
+    private Mock<IAuditRepository>? _auditRepository;
+    private Mock<IErrorService>? _errorService;
+    private Mock<ITransformService>? _transformService;
     private IHttpClientFactory? _httpClientFactory;
-    private string _generatedKey;
+    private string? _generatedKey;
 
     [TestInitialize]
     public void Setup()
@@ -68,12 +67,12 @@ public class WeatherReportServiceTests
         // Arrange 
         var config = new ConfigurationBuilder().AddJsonFile("./appsettings.json").Build();
         var service = new WeatherReportService(config,
-            _openWeatherServiceApiKeyRepository.Object,
-            _weatherReportApiKeyRepository.Object,
-            _auditRepository.Object,
-            _errorService.Object,  
-            _transformService.Object,
-            _httpClientFactory
+            _openWeatherServiceApiKeyRepository!.Object,
+            _weatherReportApiKeyRepository!.Object,
+            _auditRepository!.Object,
+            _errorService!.Object,  
+            _transformService!.Object,
+            _httpClientFactory!
         );
         
         var name = "some name1";
@@ -111,12 +110,12 @@ public class WeatherReportServiceTests
         // Arrange 
         var config = new ConfigurationBuilder().AddJsonFile("./appsettings.json").Build();
         var service = new WeatherReportService(config,
-            _openWeatherServiceApiKeyRepository.Object,
-            _weatherReportApiKeyRepository.Object,
-            _auditRepository.Object,
-            _errorService.Object,  
-            _transformService.Object,
-            _httpClientFactory
+            _openWeatherServiceApiKeyRepository!.Object,
+            _weatherReportApiKeyRepository!.Object,
+            _auditRepository!.Object,
+            _errorService!.Object,  
+            _transformService!.Object,
+            _httpClientFactory!
         );
         
         var name = "some name1";
@@ -152,12 +151,12 @@ public class WeatherReportServiceTests
         // Arrange 
         var config = new ConfigurationBuilder().AddJsonFile("./appsettings.json").Build();
         var service = new WeatherReportService(config,
-            _openWeatherServiceApiKeyRepository.Object,
-            _weatherReportApiKeyRepository.Object,
-            _auditRepository.Object,
-            _errorService.Object,  
-            _transformService.Object,
-            _httpClientFactory
+            _openWeatherServiceApiKeyRepository!.Object,
+            _weatherReportApiKeyRepository!.Object,
+            _auditRepository!.Object,
+            _errorService!.Object,  
+            _transformService!.Object,
+            _httpClientFactory!
         );
         
         var name = "some name1";
@@ -193,12 +192,12 @@ public class WeatherReportServiceTests
         // Arrange 
         var config = new ConfigurationBuilder().AddJsonFile("./appsettings.json").Build();
         var service = new WeatherReportService(config,
-            _openWeatherServiceApiKeyRepository.Object,
-            _weatherReportApiKeyRepository.Object,
-            _auditRepository.Object,
-            _errorService.Object,  
-            _transformService.Object,
-            _httpClientFactory
+            _openWeatherServiceApiKeyRepository!.Object,
+            _weatherReportApiKeyRepository!.Object,
+            _auditRepository!.Object,
+            _errorService!.Object,  
+            _transformService!.Object,
+            _httpClientFactory!
         );
         var name = "some name1";
         var guid = Guid.NewGuid();
